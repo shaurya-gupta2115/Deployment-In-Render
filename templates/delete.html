@@ -1,120 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-  <head>
+{% block title %}Manage · Blog Speaks{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block hero %}
+<section class="hero-section manage-hero" style="--hero-image: url('{{ url_for('static', filename='delete.jpg') }}');">
+  <div class="container position-relative">
+    <div class="hero-copy" data-animate="fade-up">
+      <p class="eyebrow mb-3">Moderation workspace</p>
+      <h1 class="display-heading">Keep the library relevant by removing outdated or duplicate posts.</h1>
+      <p class="lead text-light opacity-85 mb-4 col-lg-7 px-0">Select the story you’d like to retire. Changes take effect immediately across the platform.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
 
-    <title>Blog Speaks</title>
+{% block content %}
+<div class="container">
+  <div class="section-header" data-animate="fade-up">
+    <span class="eyebrow">All posts</span>
+    <h2 class="section-title">Choose a story to archive</h2>
+    <p class="section-subtitle">Review the details before confirming deletion—this action cannot be undone.</p>
+  </div>
 
-    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href="{{ url_for('static', filename='blog.min.css') }}" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Blog Speaks</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('about') }}">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('add') }}">Add</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('delete') }}">Delete</a>
-            </li>
-          </ul>
+  <div class="row g-4">
+    {% for post in posts %}
+    <div class="col-12" data-animate="fade-up" data-animate-delay="{{ loop.index0 * 40 }}">
+      <article class="post-manage-card">
+        <div>
+          <p class="post-date">{{ post.date_posted.strftime('%b %d, %Y') }}</p>
+          <h3 class="post-title mb-2">
+            <a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>
+          </h3>
+          <p class="post-subtitle mb-0">{{ post.subtitle }}</p>
         </div>
-      </div>
-    </nav>
-
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('{{ url_for('static', filename='delete.jpg') }}')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="site-heading">
-              <h1>Delete Post</h1>
-              <span class="subheading">You can delete existing blogs here.</span>
-            </div>
-          </div>
+        <div class="manage-actions">
+          <span class="post-author mb-2">By {{ post.author or 'Blog Speaks' }}</span>
+          <form
+            name="deleteForm"
+            id="deleteForm-{{ post.id }}"
+            method="POST"
+            action="{{ url_for('deletepost') }}"
+            onsubmit="return confirm('Delete this post permanently?');"
+          >
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <button type="submit" class="btn btn-danger btn-ghost">Delete post</button>
+          </form>
         </div>
+      </article>
+    </div>
+    {% else %}
+    <div class="col-12" data-animate="fade-up">
+      <div class="empty-state">
+        <h3 class="mb-2">No posts to manage.</h3>
+        <p class="mb-4 text-muted">When you publish new content, it will appear here for quick removal.</p>
+        <a class="btn btn-primary" href="{{ url_for('add') }}">Create a new story</a>
       </div>
-    </header>
-
-    <!-- Main Content -->
-    <section class="py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            {% for post in posts %}
-            <div class="card mb-3 shadow-sm">
-              <div class="card-body">
-                <a class="text-dark" href="{{ url_for('post', post_id=post.id) }}">
-                  <h4 class="mb-1">{{ post.title }}</h4>
-                </a>
-                <p class="text-muted mb-2">{{ post.subtitle }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-secondary">{{ post.date_posted.strftime('%B %d, %Y') }} • {{ post.author or 'Blog Speaks' }}</small>
-                  <form name="deleteForm" id="deleteForm-{{ post.id }}" method="POST" action="{{ url_for('deletepost') }}" onsubmit="return confirm('Delete this post permanently?');">
-                    <input type="hidden" name="post_id" value="{{post.id}}">
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-            <hr>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <hr>
-
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <p class="copyright text-muted">Copyright &copy; Blog Speaks</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!--
-    <script>
-    function deletenow() {
-      
-    }
-    </script>
-    -->
-
-    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='blog.min.js') }}"></script>
-
-  </body>
-
-</html>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

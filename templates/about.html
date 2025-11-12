@@ -1,102 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-  <head>
+{% block title %}About · Blog Speaks{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block hero %}
+<section class="hero-section about-hero" style="--hero-image: url('{{ url_for('static', filename='about_me.jpg') }}');">
+  <div class="container position-relative">
+    <div class="hero-copy" data-animate="fade-up">
+      <p class="eyebrow mb-3">Why we exist</p>
+      <h1 class="display-heading">We believe the best AI education comes from builders shipping in public.</h1>
+      <p class="lead text-light opacity-85 mb-4 col-lg-7 px-0">Blog Speaks is a home for humans turning experiments into narratives. We capture the decisions, the trade-offs, and the craft behind real-world automation and intelligence products.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
 
-    <title>Blog Speaks</title>
-
-    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href="{{ url_for('static', filename='blog.min.css') }}" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Blog Speaks</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('about') }}">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('add') }}">Add</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('delete') }}">Delete</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('{{ url_for('static', filename='about_me.jpg') }}')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="page-heading">
-              <h1>Blog Speaks</h1>
-              <span class="subheading">Technical articles, tutorials, and project walkthroughs</span>
+{% block content %}
+<div class="container">
+  <div class="row g-4 align-items-stretch">
+    <div class="col-lg-7" data-animate="fade-up">
+      <div class="glass-card h-100">
+        <h2 class="mb-3">What you’ll find here</h2>
+        <p class="text-muted mb-4">We curate living documentation from developers, designers, researchers, and product leaders building at the frontier of AI. Expect a blend of architecture breakdowns, experiments gone right (and wrong), and teachable artifacts you can remix.</p>
+        <ul class="feature-list">
+          <li>
+            <span class="feature-icon"><i class="fa fa-code"></i></span>
+            <div>
+              <h4>Code-forward storytelling</h4>
+              <p>Every article pairs concepts with runnable snippets, repos, or notebooks so you can learn by doing.</p>
             </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <section class="py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="card shadow-sm border-0">
-              <div class="card-body">
-                <h2 class="h4">About This Blog</h2>
-                <p class="lead">Welcome to Blog Speaks — a collection of technical articles, tutorials, and project walkthroughs designed to help developers learn practical skills.</p>
-                <p>We publish clear, hands-on guides covering web development, machine learning, computer vision, and software engineering best practices. Our goal is to bridge theory and practice with reproducible examples and code.</p>
-                <p>If you have a tutorial or project you'd like to share, get in touch via the contact link. We welcome guest posts and constructive feedback.</p>
-              </div>
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fa fa-lightbulb-o"></i></span>
+            <div>
+              <h4>Real-world retrospectives</h4>
+              <p>We share the systems thinking behind launches, including mistakes, mitigations, and iteration loops.</p>
             </div>
-          </div>
-        </div>
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fa fa-users"></i></span>
+            <div>
+              <h4>An open builder community</h4>
+              <p>Guest contributors bring perspectives from startups, research labs, and indie hacking—everyone’s invited.</p>
+            </div>
+          </li>
+        </ul>
       </div>
-    </section>
-
-    <hr>
-
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <p class="copyright text-muted">Copyright &copy; Blog Speaks</p>
-          </div>
-        </div>
+    </div>
+    <div class="col-lg-5" data-animate="fade-up" data-animate-delay="100">
+      <div class="gradient-card h-100">
+        <h3 class="mb-3">Our publishing values</h3>
+        <ul class="values-list">
+          <li>
+            <span class="value-title">Clarity over hype</span>
+            <p>We unpack complex systems without buzzwords so teams can make better decisions, faster.</p>
+          </li>
+          <li>
+            <span class="value-title">Evidence-driven</span>
+            <p>Every insight is anchored in shipped product work, measurable experiments, or reproducible research.</p>
+          </li>
+          <li>
+            <span class="value-title">Community first</span>
+            <p>We spotlight people behind the breakthroughs, celebrate collaboration, and encourage open knowledge.</p>
+          </li>
+        </ul>
       </div>
-    </footer>
+    </div>
+  </div>
 
-    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='blog.min.js') }}"></script>
+  <div class="journey-timeline" data-animate="fade-up">
+    <h3 class="mb-4">How to partner with us</h3>
+    <div class="timeline-grid">
+      <div class="timeline-step">
+        <span class="step-number">01</span>
+        <h4>Pitch a concept</h4>
+        <p>Share a short outline highlighting the problem you solved, the approach, and what others can learn.</p>
+      </div>
+      <div class="timeline-step">
+        <span class="step-number">02</span>
+        <h4>Co-create the draft</h4>
+        <p>We’ll pair you with an editor who helps shape the narrative while preserving your voice.</p>
+      </div>
+      <div class="timeline-step">
+        <span class="step-number">03</span>
+        <h4>Launch to the community</h4>
+        <p>Your story ships with visuals, code samples, and promotion to our reader network.</p>
+      </div>
+    </div>
+  </div>
 
-  </body>
-
-</html>
+  <div class="callout-panel" data-animate="fade-up">
+    <div>
+      <p class="eyebrow mb-2">Bring your perspective</p>
+      <h3 class="h2 mb-3">Have a tutorial or post-mortem worth sharing?</h3>
+      <p class="text-muted mb-0">Drop us a note with your idea. We’ll help craft it into a standout piece.</p>
+    </div>
+    <a class="btn btn-hero" href="{{ url_for('add') }}">Submit a story</a>
+  </div>
+</div>
+{% endblock %}

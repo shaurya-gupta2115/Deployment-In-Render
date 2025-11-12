@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block meta_description %}A modern hub for AI tutorials, walkthroughs, and technical deep dives.{% endblock %}">
+    <meta name="author" content="Blog Speaks">
+    <title>{% block title %}Blog Speaks{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <nav class="navbar navbar-expand-lg nav-glass fixed-top">
+        <div class="container">
+          <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+            <span class="brand-highlight">Blog</span> Speaks
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarResponsive"
+            data-toggle="collapse"
+            data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'add' %}active{% endif %}" href="{{ url_for('add') }}">Create</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'delete' %}active{% endif %}" href="{{ url_for('delete') }}">Manage</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        {% block hero %}{% endblock %}
+        <section class="content-section">
+          {% block content %}{% endblock %}
+        </section>
+      </main>
+
+      <footer class="footer-glass">
+        <div class="container">
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <div>
+              <p class="mb-1 fw-semibold text-uppercase small tracking-wide text-highlight">Blog Speaks</p>
+              <p class="mb-0 text-muted small">Exploring AI, engineering, and product craft through immersive stories.</p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <a class="footer-link" href="{{ url_for('index') }}">Home</a>
+              <a class="footer-link" href="{{ url_for('about') }}">About</a>
+              <a class="footer-link" href="{{ url_for('add') }}">Create</a>
+              <a class="footer-link" href="{{ url_for('delete') }}">Manage</a>
+            </div>
+          </div>
+          <hr class="footer-divider">
+          <p class="text-center text-muted small mb-0">© {{ current_year|default(2025) }} Blog Speaks. Crafted for curious builders.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='blog.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
+

@@ -1,105 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-  <head>
+{% block title %}{{ post.title }} · Blog Speaks{% endblock %}
+{% block meta_description %}{{ post.subtitle }}{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block hero %}
+<section class="hero-section post-hero" style="--hero-image: url('{{ url_for('static', filename='cloud.jpg') }}');">
+  <div class="container position-relative">
+    <div class="hero-copy" data-animate="fade-up">
+      <p class="eyebrow mb-3 text-highlight">Deep Dive</p>
+      <h1 class="display-heading">{{ post.title }}</h1>
+      <p class="lead text-light opacity-85 mb-4 col-lg-8 px-0">{{ post.subtitle }}</p>
+      <div class="d-flex flex-wrap gap-3 align-items-center text-light">
+        <span class="badge badge-soft">By {{ post.author or 'Blog Speaks' }}</span>
+        <span class="badge badge-soft">{{ post.date_posted.strftime('%B %d, %Y') }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
 
-    <title>Blog Speaks</title>
-
-    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href="{{ url_for('static', filename='blog.min.css') }}" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Blog Speaks</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('about') }}">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('add') }}">Add</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('delete') }}">Delete</a>
-            </li>
-          </ul>
+{% block content %}
+<div class="container">
+  <article class="post-article" data-animate="fade-up">
+    <div class="post-info-bar">
+      <div>
+        <p class="eyebrow mb-2">Author</p>
+        <h4 class="mb-0">{{ post.author or 'Blog Speaks' }}</h4>
+      </div>
+      <div>
+        <p class="eyebrow mb-2">Published</p>
+        <p class="mb-0 text-muted">{{ post.date_posted.strftime('%B %d, %Y') }}</p>
+      </div>
+      <div class="share-actions">
+        <p class="eyebrow mb-2">Share</p>
+        <div class="d-flex gap-2">
+          <a class="icon-btn" href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.url|urlencode }}" target="_blank" rel="noopener">
+            <i class="fa fa-twitter"></i>
+          </a>
+          <a class="icon-btn" href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.url|urlencode }}" target="_blank" rel="noopener">
+            <i class="fa fa-linkedin"></i>
+          </a>
+          <button class="icon-btn" type="button" data-copy="{{ request.url }}">
+            <i class="fa fa-link"></i>
+          </button>
         </div>
       </div>
-    </nav>
+    </div>
+    <div class="post-body">
+      {{ post.content|safe }}
+    </div>
+  </article>
 
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('{{ url_for('static', filename='cloud.jpg') }}')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="post-heading">
-              <h1>{{ post.title }}</h1>
-              <h2 class="subheading">{{ post.subtitle }}</h2>
-              <span class="meta">Posted by {{ post.author }} on {{ post.date_posted.strftime('%B %d, %Y') }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+  <div class="callout-panel mt-5" data-animate="fade-up">
+    <div>
+      <p class="eyebrow mb-2">Inspired?</p>
+      <h3 class="h2 mb-3">Document your own experiment and pay it forward.</h3>
+      <p class="text-muted mb-0">Turn your lessons into leverage for the community. We’ll feature standout stories in the weekly digest.</p>
+    </div>
+    <a class="btn btn-hero" href="{{ url_for('add') }}">Publish next</a>
+  </div>
+</div>
+{% endblock %}
 
-    <!-- Post Content -->
-    <article class="py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="card shadow-sm border-0">
-              <div class="card-body">
-                <div class="mb-3 text-muted">
-                  <small>By <strong>{{ post.author or 'Blog Speaks' }}</strong> • {{ post.date_posted.strftime('%B %d, %Y') }}</small>
-                </div>
-                <div class="post-content">
-                  {{ post.content|safe }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+{% block extra_js %}
+<script>
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var link = this.getAttribute('data-copy');
 
-    <hr>
+      function showConfirmation(context) {
+        context.classList.add('copied');
+        context.innerHTML = '<i class="fa fa-check"></i>';
+        setTimeout(function () {
+          context.classList.remove('copied');
+          context.innerHTML = '<i class="fa fa-link"></i>';
+        }, 1600);
+      }
 
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <p class="copyright text-muted">Copyright &copy; Blog Speaks</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='blog.min.js') }}"></script>
-
-  </body>
-
-</html>
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(link).then(() => showConfirmation(btn));
+      } else {
+        var tempInput = document.createElement('textarea');
+        tempInput.value = link;
+        tempInput.setAttribute('readonly', '');
+        tempInput.style.position = 'absolute';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          showConfirmation(btn);
+        } catch (err) {
+          console.warn('Copy failed', err);
+        }
+        document.body.removeChild(tempInput);
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,109 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-  <head>
+{% block title %}Blog Speaks · Stories That Ship{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Blog Speaks</title>
-
-    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href="{{ url_for('static', filename='blog.min.css') }}" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Blog Speaks</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('about') }}">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('add') }}">Add</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('delete') }}">Delete</a>
-            </li>
-          </ul>
-        </div>
+{% block hero %}
+<section class="hero-section home-hero" style="--hero-image: url('{{ url_for('static', filename='home.jpg') }}');">
+  <div class="container position-relative">
+    <div class="hero-copy" data-animate="fade-up">
+      <p class="eyebrow mb-3">New · AI Engineering Library</p>
+      <h1 class="display-heading">Ship better AI products with stories that teach by doing.</h1>
+      <p class="lead text-light opacity-85 mb-4 col-lg-7 px-0">Dive into hands-on guides and thoughtful breakdowns from practitioners building with machine learning, automation, and modern product stacks.</p>
+      <div class="d-flex gap-3 flex-wrap">
+        <a class="btn btn-hero" href="{{ url_for('add') }}">Share your story</a>
+        <a class="btn btn-outline-light btn-glass" href="{{ url_for('about') }}">Discover the mission</a>
       </div>
-    </nav>
-
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('{{ url_for('static', filename='home.jpg') }}')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="site-heading">
-              <h1>Blog Speaks</h1>
-              <span class="subheading">Making Things Simple</span>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="hero-floating-card" data-animate="fade-up" data-animate-delay="120">
+      <div class="floating-card-body">
+        <p class="small text-uppercase tracking-wide text-highlight mb-2">Featured this week</p>
+        {% if posts %}
+        <h3 class="h5 text-white mb-2">{{ posts[0].title }}</h3>
+        <p class="text-muted small mb-3">{{ posts[0].subtitle }}</p>
+        <a class="btn btn-sm btn-light stretched-link" href="{{ url_for('post', post_id=posts[0].id) }}">Read now</a>
+        {% else %}
+        <p class="text-muted small mb-0">Fresh content arrives soon. Stay tuned!</p>
+        {% endif %}
       </div>
-    </header>
+    </div>
+  </div>
+</section>
+{% endblock %}
 
-    <!-- Main Content -->
-    <section class="py-5 bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            {% for post in posts %}
-            <div class="card mb-4 shadow-sm border-0">
-              <div class="card-body">
-                <a class="text-dark" href="{{ url_for('post', post_id=post.id) }}">
-                  <h2 class="card-title h4 mb-1">{{ post.title }}</h2>
-                </a>
-                <p class="card-text text-muted mb-2">{{ post.subtitle }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-secondary">Posted by <strong>{{ post.author or 'Blog Speaks' }}</strong> • {{ post.date_posted.strftime('%B %d, %Y') }}</small>
-                  <a class="btn btn-outline-primary btn-sm" href="{{ url_for('post', post_id=post.id) }}">Read more</a>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-            <hr>
-          </div>
+{% block content %}
+<div class="container">
+  <div class="section-header" data-animate="fade-up">
+    <span class="eyebrow">Latest drops</span>
+    <h2 class="section-title">Recently published insights</h2>
+    <p class="section-subtitle">Curated narratives and tutorials from across the community.</p>
+  </div>
+
+  <div class="row g-4">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4" data-animate="fade-up" data-animate-delay="{{ loop.index0 * 60 }}">
+      <article class="post-card">
+        <div class="post-card-body">
+          <span class="post-date">{{ post.date_posted.strftime('%b %d, %Y') }}</span>
+          <h3 class="post-title">
+            <a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>
+          </h3>
+          <p class="post-subtitle">{{ post.subtitle }}</p>
         </div>
-      </div>
-    </section>
-
-    <hr>
-
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <p class="copyright text-muted">Copyright &copy; Blog Speaks</p>
-          </div>
+        <div class="post-card-footer">
+          <span class="post-author">By {{ post.author or 'Blog Speaks' }}</span>
+          <a class="btn btn-sm btn-ghost" href="{{ url_for('post', post_id=post.id) }}">Explore</a>
         </div>
+      </article>
+    </div>
+    {% else %}
+    <div class="col-12" data-animate="fade-up">
+      <div class="empty-state">
+        <h3 class="mb-2">No stories yet.</h3>
+        <p class="mb-4 text-muted">Kick things off by publishing your first AI build or learning note.</p>
+        <a class="btn btn-primary" href="{{ url_for('add') }}">Create your first post</a>
       </div>
-    </footer>
+    </div>
+    {% endfor %}
+  </div>
 
-    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='blog.min.js') }}"></script>
-
-  </body>
-
-</html>
+  <div class="callout-panel" data-animate="fade-up">
+    <div>
+      <p class="eyebrow mb-2">Join the builders</p>
+      <h3 class="h2 mb-3">Want to showcase your experiment or ship log?</h3>
+      <p class="text-muted mb-0">Turn lessons learned into long-term knowledge. Submit walkthroughs, retrospectives, or deep dives that help others climb faster.</p>
+    </div>
+    <a class="btn btn-hero" href="{{ url_for('add') }}">Publish a guide</a>
+  </div>
+</div>
+{% endblock %}
